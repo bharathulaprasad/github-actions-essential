@@ -11,7 +11,10 @@ jobs:
 
       - name: Create file
         run: |
-          echo "Hello World" > build/helloWorld.txt
+          cat <<EOT >> build/env.txt
+          line 1
+          line 2
+          EOT
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
