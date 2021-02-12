@@ -11,7 +11,8 @@ jobs:
 
       - name: Create file
         run: |
-          echo <<EOT >> build/env.txt
+          echo -n "" > build/env.txt
+          cat <<EOT >> build/env.txt
           line ${{secrets.DEV_NAME}}
           line ${{secrets.VERSION}}
           EOT
