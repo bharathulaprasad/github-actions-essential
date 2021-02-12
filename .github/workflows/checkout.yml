@@ -11,3 +11,9 @@ jobs:
       env:
         FILE_NAME: "hello.txt"
         FILE_DATA: "file content"
+    - uses: "DamianReeves/write-file-action@master"
+      with:
+          path: hello.txt
+          contents: |
+            echo "Hello World!"
+            write-mode: append
