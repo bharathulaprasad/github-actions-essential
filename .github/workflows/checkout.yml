@@ -9,5 +9,5 @@ jobs:
     steps:
     - uses: "finnp/create-file-action@master"
       env:
-        FILE_NAME: "build/hello.txt"
+        FILE_NAME: "hello.txt"
         FILE_DATA: "file content"
