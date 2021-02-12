@@ -207,9 +207,10 @@ jobs: run:
         uses: actions/checkout@v2
       - name: Create file
         run: |
-          echo <<EOT >> backend/build/env.txt
-          line 1
-          line 2
+          echo -n "" > build/env.txt
+          cat <<EOT >> build/env.txt
+          line ${{secrets.DEV_NAME}}
+          line ${{secrets.VERSION}}
           EOT
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
