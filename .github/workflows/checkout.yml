@@ -10,9 +10,7 @@ jobs:
  
     steps:
     - name: Make envfile
-      uses: SpicyPizza/create-envfile@v1
-      with:
-        envkey_DEBUG: false
-        some_other_variable: foobar
-        directory: build
-        file_name: .env
+    - uses: "finnp/create-file-action@master"
+      env:
+        FILE_NAME: "build/hello.txt"
+        FILE_DATA: "file content"
