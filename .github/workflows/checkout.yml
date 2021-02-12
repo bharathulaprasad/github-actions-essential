@@ -16,4 +16,4 @@ jobs:
           path: hello.txt
           contents: |
             echo "Hello World!"
-            write-mode: append
+          write-mode: append
