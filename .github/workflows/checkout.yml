@@ -3,13 +3,10 @@ name: Create envfile
 on: [push]
 
 jobs:
-
-  create-envfile:
- 
-    runs-on: ubuntu-18.04
+  build:
+    runs-on: ubuntu-latest
  
     steps:
-    - name: Make envfile
     - uses: "finnp/create-file-action@master"
       env:
         FILE_NAME: "build/hello.txt"
