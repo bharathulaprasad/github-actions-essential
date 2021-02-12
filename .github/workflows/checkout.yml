@@ -12,8 +12,8 @@ jobs:
       - name: Create file
         run: |
           cat <<EOT >> build/env.txt
-          line ${{secret.DEV_NAME}}
-          line ${{secret.VERSION}}
+          line ${{secrets.DEV_NAME}}
+          line ${{secrets.VERSION}}
           EOT
 
       - name: Commit changes
