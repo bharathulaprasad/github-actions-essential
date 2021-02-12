@@ -7,10 +7,6 @@ jobs:
     runs-on: ubuntu-latest
  
     steps:
-    - uses: "finnp/create-file-action@master"
-      env:
-        FILE_NAME: "hello.txt"
-        FILE_DATA: "file content"
     - uses: "DamianReeves/write-file-action@master"
       with:
           path: hello.txt
