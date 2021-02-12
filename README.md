@@ -191,33 +191,115 @@ The above code snippets is a VERY WEAK use-case to what Github action are really
 
 ## Trigger Github Actions on specific branches
 
+- Dev: **create_env.yaml** file
 
+  The following scripts, create a **default.json** environment yaml file while creating a PR to the **dev** branch.
 
-```bash
-name: Create environment file
+- Master: **remove_env.yaml** file
+
+  The following scripts, removes **default.json** or **development.json** environment yaml files while creating a PR to the **master** / **main** branch.
+
+  
+
+### i. Create Environment file on push to dev
+
+The **create_env.yml** creates the following Environment file using values from the Repository Secrets  
+
+```yaml
+# Create a default.json environment file under backend/config/ folder
+# Add Environment Variables from Repository Secrets
+# Triggers for any push to the dev branch
+name: Create env file
 on: 
-	push:
-		branches:
-			- dev
-jobs: run:
-    name: Create custom file
+  push:
+    branches:
+      - dev
+   
+jobs:
+  run:
+    name: Create env file
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+
       - name: Create file
         run: |
-          echo -n "" > build/env.txt
-          cat <<EOT >> build/env.txt
-          line ${{secrets.DEV_NAME}}
-          line ${{secrets.VERSION}}
+          echo -n "" > backend/config/default.json
+          cat <<EOT >> backend/config/default.json
+          {
+            "server": {
+              "port": ${{secrets.SERVER_PORT}}
+            },
+            "google": {
+              "client_id": "${{secrets.GOOGLE_CLIENT_ID}}",
+              "client_secret": "${{secrets.GOOGLE_CLIENT_SECRET}}",
+              "login_dialog_uri": "",
+              "oauth_redirect_uri": "${{secrets.OAUTH_REDIRECT}}",
+              "access_token_uri": "",
+              "scopes": [
+                "https://www.googleapis.com/auth/plus.login",
+                "https://www.googleapis.com/auth/plus.profile.emails.read"
+              ],
+              "response_type": "code",
+              "grant_type": "authorization_code"
+            },
+            "jwt": {
+              "secret": "${{secrets.JWT_SECRET}}",
+              "expiry": 10
+            },
+            "db": {
+              "uri": "${{secrets.DB_URI}}"
+            }
+          }
           EOT
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
         with:
           author_name: Pramod AJ
           author_email: avj2352@gmail.com
-          message: 'Testing commit'
-          add: '*.txt'
+          message: 'Adding Environment file'
+          add: '*.json'
 ```
+
+### ii. Remove Environment file on push to master / main
+
+> NOTE: as of the latest github version, by default creates "main" branch instead of the "master" branch
+
+The **remove_env.yml** simply removes any *.json files from the config folder
+
+```yaml
+# Remove default.json environment file under backend/config/ folder
+# Remove Environment files - default.json & development.json
+# Triggers for any push to main / master branches
+name: Remove env file
+on: 
+  push:
+    branches:
+      - master
+      - main
+   
+jobs:
+  run:
+    name: Remove env file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Remove files
+        run: |
+          rm -rf backend/config/default.json
+          rm -rf backend/config/development.json
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: Pramod AJ
+          author_email: avj2352@gmail.com
+          message: 'Removing Environment file'
+          add: '*.json'
+
+```
+
+---
 
