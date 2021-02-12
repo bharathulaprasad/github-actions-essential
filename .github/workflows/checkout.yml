@@ -11,7 +11,7 @@ jobs:
 
       - name: Create file
         run: |
-          echo "Hello World" > helloWorld.txt
+          echo "Hello World" > build/helloWorld.txt
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
